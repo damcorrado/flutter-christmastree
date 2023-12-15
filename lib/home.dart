@@ -1,8 +1,8 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:tree/includes/tree.utils.dart';
-import 'package:tree/widgets/snowfall.dart';
+import 'package:xmastree/includes/tree.utils.dart';
+import 'package:xmastree/widgets/snowfall.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
