@@ -1,7 +1,9 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:xmastree/includes/tree.utils.dart';
+import 'package:xmastree/widgets/page_settings.dart';
 import 'package:xmastree/widgets/snowfall.dart';
 
 class HomePage extends StatefulWidget {
@@ -12,8 +14,11 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+
   late Timer _timer;
-  bool snowfallEnabled = false;
+  late SharedPreferences prefs;
+  bool snowEnabled = false;
+  bool colorsEnabled = false;
 
   @override
   void initState() {
@@ -22,6 +27,7 @@ class _HomePageState extends State<HomePage> {
     _timer = Timer.periodic(const Duration(milliseconds: 500), (timer) {
       setState(() {});
     });
+    Future.delayed(Duration.zero).then((_) { init(); });
     super.initState();
   }
 
@@ -29,6 +35,16 @@ class _HomePageState extends State<HomePage> {
   void dispose() {
     _timer.cancel();
     super.dispose();
+  }
+
+  Future<void> init() async {
+    // init shared preferences and retrieve values
+    prefs = await SharedPreferences.getInstance();
+    setState(() {
+      snowEnabled = prefs.getBool(PREFS_SNOW_KEY) ?? false;
+      colorsEnabled = prefs.getBool(PREFS_COLORS_KEY) ?? false;
+      if (colorsEnabled) playSound();
+    });
   }
 
   @override
@@ -40,7 +56,7 @@ class _HomePageState extends State<HomePage> {
           children: [
 
             // SNOWFALL
-            if (snowfallEnabled) ...[
+            if (snowEnabled) ...[
               LayoutBuilder(
                 builder: (context, constraints) {
                   return Snowfall(
@@ -77,7 +93,7 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  // *** DRAW CGRISTMAS TREE ***
+  // *** DRAW XMAS TREE ***
   Widget drawText() {
     List<Widget> list = [];
     list.add(addRow("*"));
@@ -110,8 +126,8 @@ class _HomePageState extends State<HomePage> {
   Widget addRow(String text) {
     return Text(
       text,
-      style: bodyTextStyle.copyWith(
-        color: getRandomColor(),
+      style: treeBodyTextStyle.copyWith(
+        color: colorsEnabled ? getRandomColor() : Colors.green,
       ),
     );
   }
@@ -122,14 +138,22 @@ class _HomePageState extends State<HomePage> {
     return GestureDetector(
       onTap: () {
         setState(() {
-          snowfallEnabled = !snowfallEnabled;
-          if (snowfallEnabled) playSound();
+
+          // Show the settings page
+          Widget content = const SettingsPage();
+          showModalBottomSheet(context: context,
+            builder: (BuildContext context) {
+              return content;
+            },
+          ).then((value) {
+            init();
+          });
         });
       },
       child: Text(
         text,
         textAlign: TextAlign.center,
-        style: footerTextStyle,
+        style: treeFooterTextStyle,
       ),
     );
   }

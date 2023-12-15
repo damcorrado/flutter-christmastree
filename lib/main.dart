@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:xmastree/home.dart';
+import 'package:xmastree/page_home.dart';
 
 void main() {
   runApp(const MyApp());
