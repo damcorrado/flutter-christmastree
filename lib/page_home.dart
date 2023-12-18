@@ -22,8 +22,6 @@ class _HomePageState extends State<HomePage> {
 
   @override
   void initState() {
-    // Enable fullscreen mode
-    SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersive);
     _timer = Timer.periodic(const Duration(milliseconds: 500), (timer) {
       setState(() {});
     });
@@ -43,7 +41,7 @@ class _HomePageState extends State<HomePage> {
     setState(() {
       snowEnabled = prefs.getBool(PREFS_SNOW_KEY) ?? false;
       colorsEnabled = prefs.getBool(PREFS_COLORS_KEY) ?? false;
-      if (colorsEnabled) playSound();
+      if (snowEnabled) playSound();
     });
   }
 

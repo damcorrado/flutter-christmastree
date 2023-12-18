@@ -63,7 +63,7 @@ class SecondPageState extends State<SettingsPage> {
           pinned: false,
           automaticallyImplyLeading: false,
           flexibleSpace: FlexibleSpaceBar(
-            title: Text('Settings', style: settingsTitleTextStyle),
+            title: Text('Xmas Settings', style: settingsTitleTextStyle),
           ),
           backgroundColor: Colors.transparent,
         ),
@@ -84,48 +84,45 @@ class SecondPageState extends State<SettingsPage> {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Flexible(
-                      flex: 2,
-                      child: InkWell(
-                        onTap: () {
-                          _onColorsChanged(!colorsEnabled);
-                        },
-                        child: const Text(
+                InkWell(
+                  onTap: () {
+                    _onColorsChanged(!colorsEnabled);
+                  },
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisSize: MainAxisSize.max,
+                    children: [
+                      const Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 10, vertical: 20),
+                        child: Text(
                           "Enable lights",
                           style: settingsLabelTextStyle,
                         ),
                       ),
-                    ),
-                    Flexible(
-                      flex: 1,
-                      child: Checkbox(value: colorsEnabled, onChanged: _onColorsChanged),
-                    ),
-                  ],
+                      Checkbox(value: colorsEnabled, onChanged: _onColorsChanged),
+                    ],
+                  ),
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Flexible(
-                      flex: 2,
-                      child: InkWell(
-                        onTap: () {
-                          _onSnowChanged(!snowEnabled);
-                        },
-                        child: const Text(
+                InkWell(
+                  onTap: () {
+                    _onSnowChanged(!snowEnabled);
+                  },
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisSize: MainAxisSize.max,
+                    children: [
+                      const Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 10, vertical: 20),
+                        child: Text(
                           "Enable snow",
                           style: settingsLabelTextStyle,
                         ),
                       ),
-                    ),
-                    Flexible(
-                      flex: 1,
-                      child: Checkbox(value: snowEnabled, onChanged: _onSnowChanged),
-                    ),
-                  ],
+                      Checkbox(value: snowEnabled, onChanged: _onSnowChanged),
+                    ],
+                  ),
                 ),
               ],
             ),
